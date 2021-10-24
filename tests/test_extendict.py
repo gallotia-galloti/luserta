@@ -1,4 +1,4 @@
-from luserta.extendict import ExtenDict
+from src.luserta.extendict import ExtenDict
 
 
 def test_extendict():
