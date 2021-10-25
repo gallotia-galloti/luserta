@@ -1,12 +1,16 @@
 """setup file."""
+import re
+
 import setuptools
 
 with open("README.md", "r", encoding="utf-8") as fh:
     long_description = fh.read()
+with open("src/luserta/__init__.py", "r", encoding="utf-8") as fh:
+    version = re.search(r"__version__ = \"(.*)\"", fh.read()).group(1)
 
 setuptools.setup(
     name="luserta",
-    version="0.0.3",
+    version=version,
     author="",
     author_email="author@example.com",
     description="A small example package",
