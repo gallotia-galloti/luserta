@@ -4,8 +4,9 @@
 name: Upload Python Package on test pypi
 
 on:
-  release:
-    types: [created]
+  push:
+    branches:
+      - test
 
 jobs:
   deploy:
@@ -19,8 +20,9 @@ jobs:
           python-version: "3.x"
       - name: Autobump version
         run: |
-          # from refs/tags/v1.2.3 get 1.2.3
-          VERSION=$(echo $GITHUB_REF | sed 's#.*/v##')
+          python -m pip install --upgrade pip
+          python -m pip install --upgrade requests
+          VERSION=$(python upload_utils/get_version.py)
           PLACEHOLDER='__version__ = "develop"'
           VERSION_FILE='src/luserta/__init__.py'
 
@@ -35,8 +37,8 @@ jobs:
           python -m pip install --upgrade build twine
       - name: Build and publish
         env:
-          TWINE_USERNAME: ${{ secrets.PYPI_USERNAME }}
-          TWINE_PASSWORD: ${{ secrets.PYPI_PASSWORD }}
+          TWINE_USERNAME: ${{ secrets.PYPI_TEST_USERNAME }}
+          TWINE_PASSWORD: ${{ secrets.PYPI_TEST_PASSWORD }}
         run: |
           python -m build
-          python -m twine upload dist/*
+          python -m twine upload --repository testpypi dist/*
