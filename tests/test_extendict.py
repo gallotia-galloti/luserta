@@ -11,3 +11,7 @@ def test_extendict():
     assert {1: None}.get(1, 0) is None
     assert ExtenDict({1: None}).get(1, 0) is None
     assert ExtenDict({1: None}).coalesce(1, 0) == 0
+
+    assert {1: 0}.get(1,5) == 0
+    assert ExtenDict({1: 0}).coalesce(1, 5) == 0
+    
