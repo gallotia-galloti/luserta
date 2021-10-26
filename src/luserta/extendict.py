@@ -11,4 +11,8 @@ class ExtenDict(dict):
 
     def coalesce(self, key: Any, default: Any = None) -> Any:
         """Returns the default value even when the key exists and is None."""
-        return self.get(key) or default
+        content = self.get(key)
+        if content is None:
+            return default
+
+        return content
